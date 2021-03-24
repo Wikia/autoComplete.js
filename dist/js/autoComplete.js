@@ -279,6 +279,9 @@
     config.inputField.addEventListener("keydown", navigate);
   };
 
+  function escapeRegex(string) {
+    return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+  }
   var searchEngine = (function (query, record, config) {
     var recordLowerCase = config.diacritics ? record.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").normalize("NFC") : record.toLowerCase();
     if (config.searchEngine === "loose") {
@@ -298,7 +301,7 @@
       }
     } else {
       if (recordLowerCase.includes(query)) {
-        var pattern = new RegExp("".concat(query), "i");
+        var pattern = new RegExp(escapeRegex(query), "i");
         query = pattern.exec(record);
         var _match = config.highlight ? record.replace(query, "<span class=\"autoComplete_highlighted\">".concat(query, "</span>")) : record;
         return _match;
