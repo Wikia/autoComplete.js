@@ -186,6 +186,9 @@
     initElementClosestPolyfill: initElementClosestPolyfill
   };
 
+  function escapeRegex(string) {
+    return string.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
+  }
   var autoComplete =
   function () {
     function autoComplete(config) {
@@ -299,7 +302,7 @@
           return match.join("");
         } else {
           if (recordLowerCase.includes(query)) {
-            var pattern = new RegExp("".concat(query), "i");
+            var pattern = new RegExp(escapeRegex(query), "i");
             query = pattern.exec(record);
             return this.highlight ? record.replace(query, autoCompleteView.highlight(query)) : record;
           }

@@ -1,6 +1,10 @@
 import { autoCompleteView } from "../views/autoCompleteView";
 import { Polyfill } from "../helpers/polyfill";
 
+function escapeRegex(string) {
+  return string.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
+}
+
 export default class autoComplete {
   constructor(config) {
     const {
@@ -126,7 +130,7 @@ export default class autoComplete {
     } else {
       if (recordLowerCase.includes(query)) {
         // Regular Expression Query Pattern Ignores caseSensetive
-        const pattern = new RegExp(`${query}`, "i");
+        const pattern = new RegExp(escapeRegex(query), "i");
         // Search for a match Query in Record
         query = pattern.exec(record);
         // Returns the match
